@@ -6,6 +6,8 @@ loadSprite("plane", "sprites/planeSpriteNew.png");
 loadSprite("building", "sprites/buildingSpriteCut.png");
 loadSprite("bg", "sprites/bgSpriteCropped.jpg");
 
+loadSound("pass", "sound/pass.mp3");
+
 let highScore = 0;
 
 scene("game", () => {
@@ -58,12 +60,16 @@ scene("game", () => {
       building.passed = true;
       score += 1;
       scoreText.text = score;
+      play("pass");
     }
   });
 
   player.onCollide("building", () => {
-    const ss = screenshot();
-    go("gameover", score, ss);
+    addKaboom(player.pos);
+    setTimeout(() => {
+      const ss = screenshot();
+      go("gameover", score, ss);
+    }, 300);
   });
 
   player.onUpdate(() => {
