@@ -7,6 +7,7 @@ loadSprite("building", "sprites/buildingSpriteCut.png");
 loadSprite("bg", "sprites/bgSpriteCropped.jpg");
 
 loadSound("pass", "sound/pass.mp3");
+loadSound("collide", "sound/collideSound.mp3");
 
 let highScore = 0;
 
@@ -66,6 +67,7 @@ scene("game", () => {
 
   player.onCollide("building", () => {
     addKaboom(player.pos);
+    play("collide");
     setTimeout(() => {
       const ss = screenshot();
       go("gameover", score, ss);
@@ -95,10 +97,11 @@ scene("gameover", (score, screenshot) => {
   add([sprite("gameOverScreen", { width: width(), height: height() })]);
 
   add([
-    text("gameover!\n" + "score: " + score + "\nhigh score: " + highScore, {
-      size: 45,
-    }),
     pos(width() / 2, height() / 3),
+    text("gameover!\n" + "score: " + score + "\nhigh score: " + highScore, {
+      size: 48,
+      font: "sans-serif",
+    }),
   ]);
 
   onKeyPress("space", () => {
